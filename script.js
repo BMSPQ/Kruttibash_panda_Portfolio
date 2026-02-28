@@ -436,40 +436,38 @@ function initNavigation() {
 // Contact form functionality
 function initContactForm() {
   const form = document.getElementById('contactForm');
-  
+
   form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    // Get form data
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    
-    // Basic validation
-    if (!data.name || !data.email || !data.subject || !data.message) {
-      alert('Please fill in all fields.');
-      return;
-    }
-    
-    // Simulate form submission
+    e.preventDefault(); // we control submission now
+
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    
+
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
-    
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Success
-      alert('Message sent successfully! I will get back to you soon.');
-      form.reset();
+      const response = await fetch("https://formspree.io/f/xojnbyrl", {
+        method: "POST",
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        alert("Message sent successfully! 🚀");
+        form.reset();
+      } else {
+        alert("Something went wrong. Try again.");
+      }
+
     } catch (error) {
-      alert('Error sending message. Please try again later.');
-    } finally {
-      submitBtn.innerHTML = originalText;
-      submitBtn.disabled = false;
+      alert("Error sending message.");
     }
+
+    submitBtn.innerHTML = originalText;
+    submitBtn.disabled = false;
   });
 }
 
@@ -554,3 +552,4 @@ window.portfolio3D = {
   camera,
   renderer
 };
+
