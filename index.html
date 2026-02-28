@@ -596,7 +596,7 @@
                     
                     <div class="contact-form">
                         <h3>Send Me a Message</h3>
-                        <form id="contactForm">
+                        <form id="contactForm" action="https://formspree.io/f/xojnbyrl" method="POST">
                             <div class="form-group">
                                 <input type="text" id="name" name="name" placeholder="Your Name" required>
                             </div>
@@ -609,6 +609,9 @@
                             <div class="form-group">
                                 <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
                             </div>
+                            <input type="hidden" name="_subject" value="New Portfolio Message">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_next" value="https://kruttibash-panda-portfolio.vercel.app/#contact">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-paper-plane"></i> Send Message
                             </button>
@@ -659,4 +662,5 @@
 </body>
 
 </html>
+
 
