@@ -103,6 +103,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
+  padding-top: 70px; /* FIX */
 }
 
 /* Utility Classes */
@@ -348,12 +349,11 @@ body {
 
 /* Hero Section */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - 70px); /* FIX */
   display: flex;
   align-items: center;
   position: relative;
-  overflow: hidden;
-  padding: 0 var(--spacing-lg);
+  padding: 20px var(--spacing-lg) 60px;
 }
 
 .hero-container {
@@ -440,17 +440,13 @@ body {
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-md);
+  gap: 15px;
   background: var(--glass-bg);
-  padding: var(--spacing-lg);
+  padding: 20px;
   border-radius: 16px;
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--glass-shadow);
-  animation: fadeInRight 1s ease-out 0.2s both;
-  align-self: start;
-  margin-top: var(--spacing-lg);
+  text-align: center;   /* FIX ALIGNMENT */
+  margin-top: 20px;
 }
 
 .stat-item {
@@ -501,6 +497,8 @@ body {
   color: var(--text-secondary);
   font-size: 1.1rem;
   line-height: 1.8;
+
+  text-align: justify;   /* FIX ALIGNMENT */
 }
 
 .about-skills {
@@ -1569,4 +1567,29 @@ a:focus {
     overflow: visible;
   }
 
+}
+/* ===== FIX FOOTER OVERLAP ===== */
+.hero {
+  min-height: auto;
+  padding-top: 20px;
+  padding-bottom: 80px;
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mobile fix */
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding-top: 100px;
+    padding-bottom: 80px;
+  }
 }
