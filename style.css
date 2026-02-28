@@ -1534,3 +1534,39 @@ a:focus {
     height: 250px;
   }
 }
+/* ================= HERO MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+  /* Fix hero layout */
+  .hero-content {
+    text-align: center;
+    padding: 0 15px;
+  }
+
+  /* Reduce title size */
+  .hero-title {
+    font-size: 2rem !important;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  /* Ensure name is visible */
+  .hero-name {
+    display: block;   /* Move to next line */
+    margin-left: 0;
+    margin-top: 5px;
+    font-size: 1.8rem;
+  }
+
+  /* Fix typing text */
+  .typing-text {
+    display: inline;
+    font-size: 1rem;
+  }
+
+  /* Prevent overflow */
+  .hero-text {
+    overflow: visible;
+  }
+
+}
