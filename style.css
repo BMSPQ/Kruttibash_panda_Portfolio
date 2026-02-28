@@ -1437,4 +1437,100 @@ a:focus {
     background: #f5f5f5;
     border: 1px solid #ccc;
   }
+
+}
+/* ================= MOBILE PROJECT FIX ================= */
+@media (max-width: 768px) {
+
+  /* Fix project grid layout */
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  /* Project card full width */
+  .project-card {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Reduce image size */
+  .project-image {
+    height: 180px;
+  }
+
+  /* Adjust content spacing */
+  .project-content {
+    padding: 15px;
+  }
+
+  /* Title size */
+  .project-title {
+    font-size: 18px;
+  }
+
+  /* Description */
+  .project-description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Tech tags wrap */
+  .project-tech {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tech-tag {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  /* Buttons vertical */
+  .project-actions {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .project-actions .btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+/* ================= FINAL MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+  /* Disable hover effects (mobile doesn't support hover properly) */
+  .project-card:hover {
+    transform: none !important;
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Always show overlay on mobile */
+  .image-overlay {
+    opacity: 1 !important;
+  }
+
+  .overlay-content {
+    transform: translateY(0) !important;
+  }
+
+  /* Improve spacing */
+  .hero-content {
+    padding: 0 10px;
+  }
+
+  /* Fix buttons */
+  .btn {
+    font-size: 13px;
+  }
+
+  /* Profile card height */
+  .profile-card {
+    height: 250px;
+  }
 }
