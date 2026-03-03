@@ -2,6 +2,7 @@
 =============================================
   KRUTTIBASH PANDA - ULTRA PREMIUM PORTFOLIO
   CSS STYLING - DARK THEME WITH 3D EFFECTS
+  UPDATED: cleanup + accessibility + mobile merge + disabled buttons
 =============================================
 */
 
@@ -14,23 +15,23 @@
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
   --text-muted: #8a8a8a;
-  
+
   /* Accent Colors */
   --accent-blue: #00f2ff;
   --accent-purple: #8a2be2;
   --accent-pink: #ff00ff;
   --gradient-primary: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
   --gradient-secondary: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-  
+
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  
+
   /* Typography */
   --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
+
   /* Spacing */
   --spacing-xs: 8px;
   --spacing-sm: 16px;
@@ -38,18 +39,18 @@
   --spacing-lg: 32px;
   --spacing-xl: 48px;
   --spacing-xxl: 64px;
-  
+
   /* Shadows */
   --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  
+
   /* Transitions */
   --transition-fast: 0.2s ease-out;
   --transition-normal: 0.3s ease-out;
   --transition-slow: 0.5s ease-out;
-  
+
   /* Z-Index */
   --z-loader: 9999;
   --z-navbar: 1000;
@@ -57,6 +58,9 @@
   --z-content: 2;
   --z-modal: 100;
   --z-tooltip: 1000;
+
+  /* Layout helpers */
+  --navbar-height: 78px;
 }
 
 /* Dark Theme Override */
@@ -95,6 +99,11 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+}
+
+/* Prevent navbar overlap when clicking anchor links */
+section[id] {
+  scroll-margin-top: calc(var(--navbar-height) + 14px);
 }
 
 body {
@@ -147,10 +156,7 @@ body {
 /* Loading Screen */
 #loader {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: var(--bg-color);
   display: flex;
   justify-content: center;
@@ -183,10 +189,7 @@ body {
 /* 3D Canvas Container */
 #canvas-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: var(--z-3d);
   pointer-events: none;
 }
@@ -212,6 +215,7 @@ body {
   padding: var(--spacing-md);
   max-width: 1200px;
   margin: 0 auto;
+  min-height: var(--navbar-height);
 }
 
 .logo {
@@ -273,11 +277,14 @@ body {
   gap: var(--spacing-sm);
 }
 
+/* Make hamburger safe when it's a <button> */
 .hamburger {
   display: none;
   flex-direction: column;
   cursor: pointer;
   padding: var(--spacing-sm);
+  background: transparent;
+  border: 0;
 }
 
 .hamburger span {
@@ -346,9 +353,19 @@ body {
   box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
 }
 
+/* Disabled button styling (IMPORTANT for "coming soon" buttons) */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: grayscale(10%);
+}
+
 /* Hero Section */
 .hero {
-  min-height: 100vh; /* FIX */
+  min-height: 100vh;
   display: flex;
   align-items: center;
   position: relative;
@@ -429,6 +446,7 @@ body {
   color: var(--text-secondary);
   font-size: 1.1rem;
   line-height: 1.7;
+  max-width: 65ch;
 }
 
 .hero-actions {
@@ -445,7 +463,7 @@ body {
   padding: 20px;
   border-radius: 16px;
   border: 1px solid var(--glass-border);
-  text-align: center;   /* FIX ALIGNMENT */
+  text-align: center;
   margin-top: 20px;
 }
 
@@ -497,8 +515,8 @@ body {
   color: var(--text-secondary);
   font-size: 1.1rem;
   line-height: 1.8;
-
-  text-align: justify;   /* FIX ALIGNMENT */
+  text-align: justify;
+  max-width: 65ch;
 }
 
 .about-skills {
@@ -553,10 +571,7 @@ body {
 .profile-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
   z-index: 1;
   transition: var(--transition-normal);
@@ -702,10 +717,11 @@ body {
   cursor: pointer;
 }
 
+/* Softer hover for premium feel */
 .project-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-6px);
   border-color: var(--accent-blue);
-  box-shadow: 0 25px 50px rgba(0, 242, 255, 0.2);
+  box-shadow: 0 25px 50px rgba(0, 242, 255, 0.18);
 }
 
 .highlight-card {
@@ -734,10 +750,7 @@ body {
 
 .image-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -797,6 +810,7 @@ body {
   color: var(--text-secondary);
   margin-bottom: var(--spacing-lg);
   line-height: 1.6;
+  max-width: 65ch;
 }
 
 .project-tech {
@@ -818,6 +832,7 @@ body {
 .project-actions {
   display: flex;
   gap: var(--spacing-sm);
+  flex-wrap: wrap;
 }
 
 /* Education Section */
@@ -921,6 +936,7 @@ body {
   align-items: center;
   gap: var(--spacing-md);
   transition: var(--transition-normal);
+  position: relative; /* needed so .cert-date positions properly */
 }
 
 .cert-card:hover {
@@ -983,6 +999,7 @@ body {
 .contact-info p {
   color: var(--text-secondary);
   margin-bottom: var(--spacing-xl);
+  max-width: 65ch;
 }
 
 .contact-item {
@@ -1207,34 +1224,18 @@ body {
 
 /* Animations */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes blink {
@@ -1254,39 +1255,52 @@ body {
   transform: translateY(0);
 }
 
-/* Responsive Design */
+/* =========================
+   Responsive Design (CLEAN)
+   - merged all max-width:768px blocks into one
+========================= */
 @media (max-width: 992px) {
   .hero-content {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
+  .hero-text {
+    padding-right: 0;
+  }
+
+  .hero-title {
+    text-align: center;
+  }
+
   .hero-actions {
     justify-content: center;
+    flex-wrap: wrap;
   }
-  
+
   .about-content,
   .contact-content {
     grid-template-columns: 1fr;
   }
-  
+
   .footer-content {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
   .footer-social {
     justify-content: center;
   }
 }
 
 @media (max-width: 768px) {
+  /* Mobile nav */
   .nav-links {
     position: fixed;
-    top: 70px;
+    top: var(--navbar-height);
     left: -100%;
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100vh - var(--navbar-height));
     background: rgba(15, 15, 19, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -1296,41 +1310,140 @@ body {
     transition: left 0.3s ease;
     z-index: 999;
   }
-  
+
   .nav-links.active {
     left: 0;
   }
-  
+
   .hamburger {
     display: flex;
   }
-  
+
   .hamburger.active span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
-  
+
   .hamburger.active span:nth-child(2) {
     opacity: 0;
   }
-  
+
   .hamburger.active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
-  
-  .hero-title {
-    font-size: 3rem;
+
+  /* Hero mobile */
+  .hero {
+    min-height: auto;
+    padding: 120px 20px 60px;
   }
-  
+
+  .hero-content {
+    text-align: center;
+    padding: 0 10px;
+    gap: var(--spacing-xl);
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+    line-height: 1.3;
+  }
+
+  .hero-name {
+    display: block;
+    margin-left: 0;
+    margin-top: 5px;
+    font-size: 1.9rem;
+  }
+
+  .typing-text {
+    font-size: 1rem;
+  }
+
   .section-title {
     font-size: 2rem;
   }
-  
+
   .hero-stats {
     grid-template-columns: 1fr;
   }
-  
+
+  /* Projects mobile: 1 column + better spacing */
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
   .project-card {
+    width: 100%;
+    margin: 0 auto;
+    transform: none !important; /* prevents weird hover transform persistence */
+  }
+
+  /* Disable hover-specific glow on touch screens */
+  .project-card:hover {
     transform: none !important;
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Overlay behavior on mobile: show content without relying on hover */
+  .image-overlay {
+    opacity: 1 !important;
+  }
+
+  .overlay-content {
+    transform: translateY(0) !important;
+  }
+
+  .project-image {
+    height: 180px;
+  }
+
+  .project-content {
+    padding: 15px;
+  }
+
+  .project-title {
+    font-size: 18px;
+  }
+
+  .project-description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .project-tech {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tech-tag {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  /* Buttons stack */
+  .project-actions {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .project-actions .btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Global button font slightly smaller for mobile */
+  .btn {
+    font-size: 13px;
+  }
+
+  /* Profile card height */
+  .profile-card {
+    height: 250px;
   }
 }
 
@@ -1338,15 +1451,15 @@ body {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .section-title {
     font-size: 1.5rem;
   }
-  
+
   .container {
     padding: 0 var(--spacing-sm);
   }
-  
+
   .section {
     padding: var(--spacing-xl) 0;
   }
@@ -1383,13 +1496,15 @@ body {
   border: 0;
 }
 
-/* Focus styles for accessibility */
-button:focus,
-input:focus,
-textarea:focus,
-a:focus {
+/* Better focus styles (keyboard only) */
+:focus-visible {
   outline: 2px solid var(--accent-blue);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* High contrast mode support */
@@ -1400,11 +1515,21 @@ a:focus {
   }
 }
 
-/* Reduced motion support */
+/* Reduced motion support (less aggressive than 0.01ms on everything) */
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .typing-text { animation: none; border-right: none; }
+  .loader-spinner { animation: none; }
+
+  .fade-in,
+  .fade-in.visible {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+
   * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
@@ -1415,150 +1540,19 @@ a:focus {
     background: white;
     color: black;
   }
-  
+
   #navbar,
   #canvas-container,
   .back-to-top {
     display: none;
   }
-  
+
   .container {
     max-width: none;
     padding: 0;
   }
-  
+
   .section {
     padding: 20px 0;
   }
-  
-  .glass-bg {
-    background: #f5f5f5;
-    border: 1px solid #ccc;
-  }
-
-}
-/* ================= MOBILE PROJECT FIX ================= */
-@media (max-width: 768px) {
-
-  /* Fix project grid layout */
-  .projects-grid {
-    grid-template-columns: 1fr !important;
-    gap: 20px;
-    padding: 0 10px;
-  }
-
-  /* Project card full width */
-  .project-card {
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  /* Reduce image size */
-  .project-image {
-    height: 180px;
-  }
-
-  /* Adjust content spacing */
-  .project-content {
-    padding: 15px;
-  }
-
-  /* Title size */
-  .project-title {
-    font-size: 18px;
-  }
-
-  /* Description */
-  .project-description {
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  /* Tech tags wrap */
-  .project-tech {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .tech-tag {
-    font-size: 12px;
-    padding: 5px 10px;
-  }
-
-  /* Buttons vertical */
-  .project-actions {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-  }
-
-  .project-actions .btn {
-    width: 100%;
-    justify-content: center;
-    font-size: 14px;
-    padding: 10px;
-  }
-}
-/* ================= FINAL MOBILE FIX ================= */
-@media (max-width: 768px) {
-
-  /* Disable hover effects (mobile doesn't support hover properly) */
-  .project-card:hover {
-    transform: none !important;
-    box-shadow: var(--glass-shadow);
-  }
-
-  /* Always show overlay on mobile */
-  .image-overlay {
-    opacity: 1 !important;
-  }
-
-  .overlay-content {
-    transform: translateY(0) !important;
-  }
-
-  /* Improve spacing */
-  .hero-content {
-    padding: 0 10px;
-  }
-
-  /* Fix buttons */
-  .btn {
-    font-size: 13px;
-  }
-
-  /* Profile card height */
-  .profile-card {
-    height: 250px;
-  }
-}
-/* ================= HERO MOBILE FIX ================= */
-@media (max-width: 768px) {
-
-  .hero {
-    min-height: auto;
-    padding: 120px 20px 60px;
-  }
-
-  .hero-content {
-    text-align: center;
-    padding: 0 10px;
-  }
-
-  .hero-title {
-    font-size: 2.2rem;
-    line-height: 1.3;
-  }
-
-  .hero-name {
-    display: block;
-    margin-left: 0;
-    margin-top: 5px;
-    font-size: 1.9rem;
-  }
-
-  .typing-text {
-    font-size: 1rem;
-  }
-
 }
