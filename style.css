@@ -883,7 +883,19 @@ footer::before {
   .metric-num { font-size: 2rem; }
 
   /* ── About ── */
+  .profile-wrap {
+    width: min(100%, 320px);
+    margin: 0 auto;
+  }
   .profile-card  { height: 280px; }
+  .profile-card  {
+    width: 100%;
+    min-height: 280px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+  }
   .profile-orb   { width: 180px; height: 180px; top: -10px; right: -10px; }
 
   /* ── Skills ── */
