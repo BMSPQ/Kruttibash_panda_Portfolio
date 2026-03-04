@@ -36,7 +36,7 @@ let isAnimating = false;
 // Background configuration (professional / subtle)
 // ======================
 const bgConfig = {
-  starCount: 700,       // will be reduced automatically on low-end/mobile
+  starCount: 500,       // will be reduced automatically on low-end/mobile
   starSize: 0.7,
   starOpacity: 0.55,
   depth: 120,
@@ -244,19 +244,10 @@ function animate() {
   // Gentle scroll zoom
   camera.position.z = bgConfig.cameraZ + scrollProgress * 10;
 
-  // Drift stars forward (professional, slow)
-  if (stars && starGeometry) {
-    const pos = starGeometry.attributes.position;
-
-    for (let i = 0; i < pos.count; i++) {
-      let z = pos.getZ(i);
-      z += bgConfig.driftSpeed;
-
-      if (z > bgConfig.depth / 2) z = -bgConfig.depth / 2;
-      pos.setZ(i, z);
-    }
-
-    pos.needsUpdate = true;
+  // Drift stars (professional, slow) via group rotation for performance
+  if (stars) {
+    stars.rotation.z += bgConfig.driftSpeed * 0.01;
+    stars.rotation.y += bgConfig.driftSpeed * 0.005;
   }
 
   renderer.render(scene, camera);
@@ -319,6 +310,17 @@ function initScrollAnimations() {
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
     fadeElements.forEach(el => observer.observe(el));
+  }
+
+  const revealElements = document.querySelectorAll('.reveal');
+  if (revealElements.length) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
   }
 
   if (backToTopBtn) {
