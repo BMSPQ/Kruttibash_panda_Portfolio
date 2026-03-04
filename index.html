@@ -1,854 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kruttibash Panda — Python Developer & ML Engineer</title>
+<meta name="description" content="Portfolio of Kruttibash Panda – Python Developer, Machine Learning Enthusiast, and Web Developer."/>
+<link rel="canonical" href="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/"/>
+<meta property="og:title" content="Kruttibash Panda | Python Developer"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="theme-color" content="#020209"/>
+<link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon"/>
 
-    <title>Kruttibash Panda | Python Developer</title>
-    <meta name="description" content="Portfolio of Kruttibash Panda - Python Developer and Machine Learning Enthusiast" />
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 
-    <!-- Canonical (IMPORTANT for SEO; update when your deployment URL changes) -->
-    <link rel="canonical" href="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/" />
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-    <!-- Open Graph / Social Preview -->
-    <meta property="og:title" content="Kruttibash Panda | Python Developer" />
-    <meta property="og:description" content="Personal portfolio showcasing projects, skills, and experience in Python, Machine Learning, and Web Development." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/" />
-    <!-- Optional: If you add a preview image later, put it in assets and update this -->
-    <!-- <meta property="og:image" content="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/assets/images/og-image.png" /> -->
+<!-- Stylesheet -->
+<link rel="stylesheet" href="style.css"/>
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Kruttibash Panda | Python Developer" />
-    <meta name="twitter:description" content="Personal portfolio showcasing projects, skills, and experience in Python, Machine Learning, and Web Development." />
-    <!-- <meta name="twitter:image" content="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/assets/images/og-image.png" /> -->
-
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#0f0f13" />
-
-    <!-- Favicon -->
-    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon" />
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    />
-
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="style.css" />
-
-    <!-- Preload critical assets (MUST match the version you load below) -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" as="script" />
+<!-- Three.js preload -->
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" as="script"/>
 </head>
-
 <body>
-    <!-- Loading Screen -->
-    <div id="loader" aria-live="polite" aria-busy="true">
-        <div class="loader-content">
-            <div class="loader-spinner" aria-hidden="true"></div>
-            <p>Loading Portfolio...</p>
-        </div>
-    </div>
 
-    <!-- 3D Canvas Container -->
-    <div id="canvas-container" aria-hidden="true"></div>
-
-    <!-- Navigation -->
-    <nav id="navbar" role="navigation" aria-label="Primary">
-        <div class="nav-container">
-            <div class="logo" aria-label="Kruttibash Panda home">
-                <span class="logo-text">KP</span>
-            </div>
-
-            <ul class="nav-links">
-                <li><a href="#hero" class="nav-link active">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#education" class="nav-link">Education</a></li>
-                <li><a href="#certifications" class="nav-link">Certifications</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-
-            <div class="nav-buttons">
-                <a href="assets/resume.pdf" class="btn btn-outline" download>
-                    <i class="fas fa-download" aria-hidden="true"></i> Resume
-                </a>
-            </div>
-
-            <button class="hamburger" type="button" aria-label="Open navigation menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section id="hero" class="hero">
-            <div class="container hero-container">
-                <div class="hero-content">
-                    <div class="hero-text">
-                        <h1 class="hero-title">
-                            <span class="gradient-text">Kruttibash</span>
-                            <span class="hero-name">Panda</span>
-                        </h1>
-
-                        <div class="hero-subtitle">
-                            <span class="role-text">Python Developer</span>
-                            <span class="typing-text" id="typing-animation" aria-label="Rotating roles"></span>
-                        </div>
-
-                        <div class="hero-description">
-                            <p>
-                                Motivated B.Tech Computer Science student with strong knowledge in Python, Machine Learning,
-                                and Web Development. Passionate about building real-world solutions.
-                            </p>
-                        </div>
-
-                        <div class="hero-actions">
-                            <a href="#projects" class="btn btn-primary">
-                                <i class="fas fa-eye" aria-hidden="true"></i> View Projects
-                            </a>
-                            <a href="#contact" class="btn btn-secondary">
-                                <i class="fas fa-envelope" aria-hidden="true"></i> Get In Touch
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="hero-stats fade-in" aria-label="Quick stats">
-                        <div class="stat-item">
-                            <span class="stat-number">4</span>
-                            <span class="stat-label">Projects</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">5+</span>
-                            <span class="stat-label">Certifications</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">3+</span>
-                            <span class="stat-label">Technologies</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section about">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2 class="section-title">About Me</h2>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="about-content">
-                    <div class="about-text reveal">
-                        <h3>Hello, I'm Kruttibash Panda</h3>
-                        <p>
-                            Motivated B.Tech Computer Science student with strong skills in Python, Machine Learning, and Web
-                            Development. Experienced in building real-world projects including deep learning and AI-based
-                            applications. Passionate about solving problems and continuously learning new technologies.
-                        </p>
-                        <p>
-                            I specialize in developing intelligent systems using machine learning algorithms and creating
-                            user-friendly web applications. My experience spans from building medical diagnosis systems to
-                            developing management solutions that streamline business processes.
-                        </p>
-
-                        <div class="about-skills" aria-label="Core strengths">
-                            <div class="skill-tag">Problem Solving</div>
-                            <div class="skill-tag">Team Collaboration</div>
-                            <div class="skill-tag">Continuous Learning</div>
-                            <div class="skill-tag">Innovation</div>
-                        </div>
-                    </div>
-
-                    <div class="about-image reveal">
-                        <div class="profile-card" role="img" aria-label="Profile photo card">
-                            <div class="profile-content">
-                                <h4>Kruttibash Panda</h4>
-                                <p></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="section skills">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2 class="section-title">Technical Skills</h2>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="skills-grid">
-                    <!-- Programming -->
-                    <div class="skill-category reveal">
-                        <h3 class="category-title">
-                            <i class="fas fa-code" aria-hidden="true"></i> Programming
-                        </h3>
-
-                        <div class="skill-cards">
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-python" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>Python</h4>
-                                    <p>Core Python, OOP, File Handling, Data Structures</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-java" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>Java</h4>
-                                    <p>Basic OOP Concepts &amp; Problem Solving</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-code" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>C</h4>
-                                    <p>Structured Programming Fundamentals</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Web Development -->
-                    <div class="skill-category reveal">
-                        <h3 class="category-title">
-                            <i class="fas fa-globe" aria-hidden="true"></i> Web Development
-                        </h3>
-
-                        <div class="skill-cards">
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-html5" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>HTML</h4>
-                                    <p>Semantic Markup &amp; Responsive Structure</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-css3-alt" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>CSS</h4>
-                                    <p>Flexbox, Grid, Modern UI Styling</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-js" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>JavaScript</h4>
-                                    <p>DOM Manipulation &amp; Interactive UI</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Database -->
-                    <div class="skill-category reveal">
-                        <h3 class="category-title">
-                            <i class="fas fa-database" aria-hidden="true"></i> Database
-                        </h3>
-
-                        <div class="skill-cards">
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-database" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>MySQL</h4>
-                                    <p>Database Design, CRUD Operations</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-table" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>SQL</h4>
-                                    <p>Basic Queries, Joins, Data Management</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-database" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>SQLite</h4>
-                                    <p>Lightweight Database for Python Applications</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- AI & Machine Learning -->
-                    <div class="skill-category reveal">
-                        <h3 class="category-title">
-                            <i class="fas fa-brain" aria-hidden="true"></i> AI &amp; Machine Learning
-                        </h3>
-
-                        <div class="skill-cards">
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-robot" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>Machine Learning</h4>
-                                    <p>Supervised Learning, Model Training &amp; Evaluation</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-layer-group" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>Deep Learning</h4>
-                                    <p>Neural Networks &amp; CNN Fundamentals</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>Generative AI</h4>
-                                    <p>LLM Fundamentals &amp; Retrieval-Augmented Generation (RAG)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tools & Concepts -->
-                    <div class="skill-category reveal">
-                        <h3 class="category-title">
-                            <i class="fas fa-cogs" aria-hidden="true"></i> Tools &amp; Concepts
-                        </h3>
-
-                        <div class="skill-cards">
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-window-maximize" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>PyQt</h4>
-                                    <p>GUI Application Development in Python</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-desktop" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>Human-Computer Interaction</h4>
-                                    <p>UI Design Principles &amp; Usability Concepts</p>
-                                </div>
-                            </div>
-
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-microchip" aria-hidden="true"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <h4>IoT (Basics)</h4>
-                                    <p>IoT Architecture, Sensors &amp; Connected Systems</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section projects">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2 class="section-title">Featured Projects</h2>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="projects-grid">
-                    <!-- Brain Tumor Detection System -->
-                    <article class="project-card highlight-card reveal">
-                        <a href="https://github.com/BMSPQ/Brain-Tumor-Detection-Using-Deep-Learning" target="_blank" rel="noopener noreferrer">
-                            <div class="project-image">
-                                <div class="image-overlay">
-                                    <div class="overlay-content">
-                                        <h3>View Project</h3>
-                                        <p>Explore the medical AI system</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <div class="project-content">
-                            <div class="project-badge">Medical AI</div>
-                            <h3 class="project-title">Brain Tumor Detection System</h3>
-                            <p class="project-description">
-                                A deep learning model that analyzes MRI images to detect brain tumors with high accuracy.
-                                Built using Python and advanced neural networks for medical diagnosis.
-                            </p>
-
-                            <div class="project-tech">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Deep Learning</span>
-                                <span class="tech-tag">HTML</span>
-                                <span class="tech-tag">TensorFlow</span>
-                            </div>
-
-                            <div class="project-actions">
-                                <a
-                                    href="https://github.com/BMSPQ/Brain-Tumor-Detection-Using-Deep-Learning"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="btn btn-outline"
-                                    title="View Source Code on GitHub"
-                                >
-                                    <i class="fab fa-github" aria-hidden="true"></i> View Code
-                                </a>
-
-                                <!-- Live demo not available -> disabled button (no alert, more professional) -->
-                                <button class="btn btn-primary" type="button" disabled aria-disabled="true" title="Live demo coming soon">
-                                    <i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Crop Recommendation System -->
-                    <article class="project-card reveal">
-                        <div class="project-image crop-bg" aria-hidden="true">
-                            <div class="image-overlay">
-                                <div class="overlay-content">
-                                    <h3>Project</h3>
-                                    <p>Explore the agricultural AI</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-content">
-                            <div class="project-badge">Agriculture</div>
-                            <h3 class="project-title">Crop Recommendation System</h3>
-                            <p class="project-description">
-                                Machine learning model that analyzes environmental data to recommend optimal crops for
-                                specific conditions, helping farmers make data-driven decisions.
-                            </p>
-
-                            <div class="project-tech">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Machine Learning</span>
-                                <span class="tech-tag">Data Analysis</span>
-                            </div>
-
-                            <!-- No links yet -> hide/disable actions area to avoid dead links -->
-                            <div class="project-actions" aria-label="Project links">
-                                <button class="btn btn-outline" type="button" disabled aria-disabled="true" title="GitHub link will be added later">
-                                    <i class="fab fa-github" aria-hidden="true"></i> View Code
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Library Management System -->
-                    <article class="project-card reveal">
-                        <div class="project-image library-bg" aria-hidden="true">
-                            <div class="image-overlay">
-                                <div class="overlay-content">
-                                    <h3>Project</h3>
-                                    <p>Explore the management system</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-content">
-                            <div class="project-badge">Management</div>
-                            <h3 class="project-title">Library Management System</h3>
-                            <p class="project-description">
-                                A comprehensive system for managing library operations including book issue/return, member
-                                management, and inventory tracking.
-                            </p>
-
-                            <div class="project-tech">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">HTML</span>
-                                <span class="tech-tag">CSS</span>
-                                <span class="tech-tag">MySQL</span>
-                            </div>
-
-                            <div class="project-actions" aria-label="Project links">
-                                <button class="btn btn-outline" type="button" disabled aria-disabled="true" title="GitHub link will be added later">
-                                    <i class="fab fa-github" aria-hidden="true"></i> View Code
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Boutique Management System -->
-                    <article class="project-card reveal">
-                        <div class="project-image boutique-bg" aria-hidden="true">
-                            <div class="image-overlay">
-                                <div class="overlay-content">
-                                    <h3>Project</h3>
-                                    <p>Explore the retail system</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-content">
-                            <div class="project-badge">Retail</div>
-                            <h3 class="project-title">Boutique Management System</h3>
-                            <p class="project-description">
-                                Inventory and billing system designed for boutique stores, featuring product management, sales
-                                tracking, and customer database management.
-                            </p>
-
-                            <div class="project-tech">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">MySQL</span>
-                                <span class="tech-tag">GUI</span>
-                            </div>
-
-                            <div class="project-actions" aria-label="Project links">
-                                <button class="btn btn-outline" type="button" disabled aria-disabled="true" title="GitHub link will be added later">
-                                    <i class="fab fa-github" aria-hidden="true"></i> View Code
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education Section -->
-        <section id="education" class="section education">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2 class="section-title">Education</h2>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="education-grid">
-                    <!-- B.Tech -->
-                    <div class="education-card reveal">
-                        <div class="education-icon">
-                            <i class="fas fa-graduation-cap" aria-hidden="true"></i>
-                        </div>
-                        <div class="education-content">
-                            <h3 class="education-degree">B.Tech in Computer Science and Engineering</h3>
-                            <h4 class="education-school">GIET University</h4>
-                            <p class="education-year">2023 - 2027</p>
-                            <p class="education-gpa">CGPA: 7.8</p>
-                        </div>
-                    </div>
-
-                    <!-- 12th -->
-                    <div class="education-card reveal">
-                        <div class="education-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </div>
-                        <div class="education-content">
-                            <h3 class="education-degree">12th (Science)</h3>
-                            <h4 class="education-school">Gyana Vikash Higher Secondary School</h4>
-                            <p class="education-year">2021 - 2023</p>
-                            <p class="education-gpa">Percentage: 67%</p>
-                        </div>
-                    </div>
-
-                    <!-- 10th -->
-                    <div class="education-card reveal">
-                        <div class="education-icon">
-                            <i class="fas fa-school" aria-hidden="true"></i>
-                        </div>
-                        <div class="education-content">
-                            <h3 class="education-degree">10th</h3>
-                            <h4 class="education-school">Nabajyoti High School</h4>
-                            <p class="education-year">2020 - 2021</p>
-                            <p class="education-gpa">Percentage: 78%</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Certifications Section -->
-        <section id="certifications" class="section certifications">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2 class="section-title">Certifications</h2>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="certifications-grid">
-                    <div class="cert-card reveal">
-                        <div class="cert-icon">
-                            <i class="fab fa-python" aria-hidden="true"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h4>Programming with Python</h4>
-                            <p>Internshala – 6 Week Online Training</p>
-                            <span class="cert-date">Score: 95%</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-card reveal">
-                        <div class="cert-icon">
-                            <i class="fas fa-desktop" aria-hidden="true"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h4>NPTEL – Design &amp; Implementation of Human Computer Interfaces</h4>
-                            <p>National Programme on Technology Enhanced Learning</p>
-                            <span class="cert-date">2024</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-card reveal">
-                        <div class="cert-icon">
-                            <i class="fas fa-microchip" aria-hidden="true"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h4>NPTEL – Introduction to Internet of Things (IoT)</h4>
-                            <p>IoT Architecture &amp; Connected Systems</p>
-                            <span class="cert-date">2024</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-card reveal">
-                        <div class="cert-icon">
-                            <i class="fas fa-brain" aria-hidden="true"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h4>Generative AI, LLM &amp; RAG</h4>
-                            <p>GeeksforGeeks – SkillUp Program</p>
-                            <span class="cert-date">2024</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-card reveal">
-                        <div class="cert-icon">
-                            <i class="fab fa-hackerrank" aria-hidden="true"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h4>HackerRank – Java (Basic)</h4>
-                            <p>Problem Solving Certification</p>
-                            <span class="cert-date">2024</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-card reveal">
-                        <div class="cert-icon">
-                            <i class="fas fa-briefcase" aria-hidden="true"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h4>Data Science Internship</h4>
-                            <p>Remark Skill Education</p>
-                            <span class="cert-date">Summer 2024</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section contact">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2 class="section-title">Get In Touch</h2>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="contact-content">
-                    <div class="contact-info reveal">
-                        <h3>Let's Connect</h3>
-                        <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
-
-                        <div class="contact-item">
-                            <i class="fas fa-envelope" aria-hidden="true"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <p>
-                                    <a href="mailto:kruttibashpanda2000@gmail.com" class="contact-link">
-                                        kruttibashpanda2000@gmail.com
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <i class="fab fa-github" aria-hidden="true"></i>
-                            <div>
-                                <h4>GitHub</h4>
-                                <p>
-                                    <a href="https://github.com/BMSPQ" target="_blank" rel="noopener noreferrer" class="contact-link">
-                                        github.com/BMSPQ
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <i class="fab fa-linkedin" aria-hidden="true"></i>
-                            <div>
-                                <h4>LinkedIn</h4>
-                                <p>
-                                    <a
-                                        href="https://www.linkedin.com/in/kruttibash-panda-bmspq36/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="contact-link"
-                                    >
-                                        linkedin.com/in/kruttibash-panda-bmspq36
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Social links: keep GitHub + LinkedIn, hide placeholders until you add real URLs -->
-                        <div class="social-links" aria-label="Social links">
-                            <a href="https://github.com/BMSPQ" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub">
-                                <i class="fab fa-github" aria-hidden="true"></i>
-                            </a>
-                            <a
-                                href="https://www.linkedin.com/in/kruttibash-panda-bmspq36/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="social-btn"
-                                title="LinkedIn"
-                            >
-                                <i class="fab fa-linkedin" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="contact-form reveal">
-                        <h3>Send Me a Message</h3>
-
-                        <form id="contactForm" action="https://formspree.io/f/xojnbyrl" method="POST">
-                            <div class="form-group">
-                                <input type="text" id="name" name="name" placeholder="Your Name" required />
-                            </div>
-
-                            <div class="form-group">
-                                <input type="email" id="email" name="email" placeholder="Your Email" required />
-                            </div>
-
-                            <div class="form-group">
-                                <input type="text" id="subject" name="subject" placeholder="Subject" required />
-                            </div>
-
-                            <div class="form-group">
-                                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-                            </div>
-
-                            <input type="hidden" name="_subject" value="New Portfolio Message" />
-                            <input type="hidden" name="_captcha" value="false" />
-
-                            <!-- Updated redirect URL to your current deployment -->
-                            <input
-                                type="hidden"
-                                name="_next"
-                                value="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/#contact"
-                            />
-
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message
-                            </button>
-                        </form>
-
-                        <!-- Optional noscript note -->
-                        <noscript>
-                            <p style="margin-top: 12px; color: #b0b0b0;">
-                                JavaScript is disabled. The form will still submit, but some interactive effects may not work.
-                            </p>
-                        </noscript>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="footer-logo-text">Kruttibash Panda</span>
-                    <p>Python Developer | Machine Learning Enthusiast</p>
-                </div>
-
-                <div class="footer-links" aria-label="Footer links">
-                    <ul>
-                        <li><a href="#hero">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-
-                <!-- Footer socials: keep only real links for now -->
-                <div class="footer-social" aria-label="Footer social links">
-                    <a href="https://github.com/BMSPQ" target="_blank" rel="noopener noreferrer" class="social-icon" title="GitHub">
-                        <i class="fab fa-github" aria-hidden="true"></i>
-                    </a>
-                    <a
-                        href="https://www.linkedin.com/in/kruttibash-panda-bmspq36/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="social-icon"
-                        title="LinkedIn"
-                    >
-                        <i class="fab fa-linkedin" aria-hidden="true"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2025 Kruttibash Panda. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" aria-label="Back to top">
-        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+<!-- ── CURSOR ─────────────────────────────────── -->
+<div id="cursor-dot"   aria-hidden="true"></div>
+<div id="cursor-ring"  aria-hidden="true"></div>
+
+<!-- ── LOADER ─────────────────────────────────── -->
+<div id="loader" aria-live="polite" aria-busy="true">
+  <div class="loader-name">KP</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- ── 3D CANVAS ───────────────────────────────── -->
+<canvas id="canvas-bg" aria-hidden="true"></canvas>
+
+<!-- ── NAVBAR ─────────────────────────────────── -->
+<nav id="navbar" role="navigation" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="nav-logo" aria-label="Kruttibash Panda home">KP</div>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a class="nav-link active" href="#hero">Home</a></li>
+      <li><a class="nav-link" href="#about">About</a></li>
+      <li><a class="nav-link" href="#skills">Skills</a></li>
+      <li><a class="nav-link" href="#projects">Projects</a></li>
+      <li><a class="nav-link" href="#education">Education</a></li>
+      <li><a class="nav-link" href="#certifications">Certs</a></li>
+      <li><a class="nav-link" href="#contact">Contact</a></li>
+    </ul>
+
+    <a href="assets/resume.pdf" class="nav-resume" download>↓ Resume</a>
+
+    <button class="hamburger" id="ham" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
     </button>
+  </div>
+</nav>
 
-    <!-- Scripts -->
-    <!-- Keep Three.js version same as preload -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="script.js"></script>
+<!-- ── MAIN ────────────────────────────────────── -->
+<main>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-tag">
+          <span class="hero-tag-dot"></span>
+          Available for opportunities
+        </div>
+
+        <h1 class="hero-name">
+          <span class="hero-name-grad">Kruttibash</span>
+          <span class="hero-name-plain">Panda</span>
+        </h1>
+
+        <div class="hero-role">
+          <span class="hero-role-static">Python Developer</span>
+          <span class="role-sep" aria-hidden="true"></span>
+          <span id="type-el" aria-label="Rotating role"></span>
+        </div>
+
+        <p class="hero-bio">
+          Motivated B.Tech Computer Science student with strong knowledge in Python,
+          Machine Learning, and Web Development. Passionate about building real-world
+          solutions that make an impact.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-glow"><i class="fas fa-eye" aria-hidden="true"></i> View Projects</a>
+          <a href="#contact"  class="btn btn-outline"><i class="fas fa-envelope" aria-hidden="true"></i> Get In Touch</a>
+        </div>
+
+        <div class="scroll-hint" aria-hidden="true">
+          <div class="scroll-line"></div>
+          Scroll to explore
+        </div>
+      </div>
+
+      <div class="hero-metrics fade-in" aria-label="Quick stats">
+        <div class="metric">
+          <div class="metric-num">4</div>
+          <div class="metric-lbl">Projects</div>
+        </div>
+        <div class="metric">
+          <div class="metric-num">5+</div>
+          <div class="metric-lbl">Certs</div>
+        </div>
+        <div class="metric">
+          <div class="metric-num">3+</div>
+          <div class="metric-lbl">Stacks</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section about">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-label">About</div>
+        <h2 class="sec-title">Who I <span>Am</span></h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-text reveal-l">
+          <h3>Hello, I'm Kruttibash Panda</h3>
+          <p>Motivated B.Tech Computer Science student with strong skills in Python, Machine Learning, and Web Development. Experienced in building real-world projects including deep learning and AI-based applications.</p>
+          <p>I specialize in developing intelligent systems using machine learning algorithms and creating user-friendly web applications — from medical AI to business management solutions.</p>
+          <div class="tag-cloud">
+            <span class="tag">Problem Solving</span>
+            <span class="tag">Team Player</span>
+            <span class="tag">Fast Learner</span>
+            <span class="tag">Innovation</span>
+            <span class="tag">Python</span>
+            <span class="tag">AI / ML</span>
+          </div>
+        </div>
+
+        <div class="profile-wrap reveal-r">
+          <div class="profile-orb" aria-hidden="true"></div>
+          <div class="profile-card" id="profileCard" role="img" aria-label="Profile photo of Kruttibash Panda">
+            <div class="profile-card-body">
+              <h4>Kruttibash Panda</h4>
+              <p>Python · ML · Web Dev</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-label">Skills</div>
+        <h2 class="sec-title">Technical <span>Expertise</span></h2>
+      </div>
+
+      <div class="skills-grid">
+
+        <div class="skill-cat reveal d1">
+          <div class="cat-title"><i class="fas fa-code" aria-hidden="true"></i> Programming</div>
+          <div class="skill-list">
+            <div class="skill-item"><div class="skill-ico"><i class="fab fa-python" aria-hidden="true"></i></div><div class="skill-info"><h5>Python</h5><p>Core Python, OOP, Data Structures</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fab fa-java"   aria-hidden="true"></i></div><div class="skill-info"><h5>Java</h5><p>Basic OOP &amp; Problem Solving</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-code"   aria-hidden="true"></i></div><div class="skill-info"><h5>C</h5><p>Structured Programming Fundamentals</p></div></div>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal d2">
+          <div class="cat-title"><i class="fas fa-globe" aria-hidden="true"></i> Web Development</div>
+          <div class="skill-list">
+            <div class="skill-item"><div class="skill-ico"><i class="fab fa-html5"    aria-hidden="true"></i></div><div class="skill-info"><h5>HTML</h5><p>Semantic Markup &amp; Structure</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fab fa-css3-alt" aria-hidden="true"></i></div><div class="skill-info"><h5>CSS</h5><p>Flexbox, Grid, Modern Styling</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fab fa-js"        aria-hidden="true"></i></div><div class="skill-info"><h5>JavaScript</h5><p>DOM &amp; Interactive UI</p></div></div>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal d1">
+          <div class="cat-title"><i class="fas fa-database" aria-hidden="true"></i> Database</div>
+          <div class="skill-list">
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-database" aria-hidden="true"></i></div><div class="skill-info"><h5>MySQL</h5><p>Database Design, CRUD</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-table"    aria-hidden="true"></i></div><div class="skill-info"><h5>SQL</h5><p>Queries, Joins, Data Management</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-database" aria-hidden="true"></i></div><div class="skill-info"><h5>SQLite</h5><p>Lightweight Python DB</p></div></div>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal d2">
+          <div class="cat-title"><i class="fas fa-brain" aria-hidden="true"></i> AI &amp; Machine Learning</div>
+          <div class="skill-list">
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-robot"       aria-hidden="true"></i></div><div class="skill-info"><h5>Machine Learning</h5><p>Supervised Learning, Evaluation</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-layer-group" aria-hidden="true"></i></div><div class="skill-info"><h5>Deep Learning</h5><p>Neural Networks &amp; CNN</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-star"         aria-hidden="true"></i></div><div class="skill-info"><h5>Generative AI</h5><p>LLMs &amp; RAG</p></div></div>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal d3">
+          <div class="cat-title"><i class="fas fa-cogs" aria-hidden="true"></i> Tools &amp; Concepts</div>
+          <div class="skill-list">
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-window-maximize" aria-hidden="true"></i></div><div class="skill-info"><h5>PyQt</h5><p>GUI App Development</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-desktop"          aria-hidden="true"></i></div><div class="skill-info"><h5>HCI</h5><p>UI Design &amp; Usability</p></div></div>
+            <div class="skill-item"><div class="skill-ico"><i class="fas fa-microchip"        aria-hidden="true"></i></div><div class="skill-info"><h5>IoT Basics</h5><p>Architecture &amp; Sensors</p></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section section-alt">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-label">Work</div>
+        <h2 class="sec-title">Featured <span>Projects</span></h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <article class="proj-card featured reveal d1">
+          <div class="proj-thumb bg-ai" aria-hidden="true">
+            <div class="proj-shape"><i class="fas fa-brain"></i></div>
+            <div class="proj-hover"><div class="proj-hover-text"><h4>View on GitHub</h4><p>Medical AI System</p></div></div>
+          </div>
+          <div class="proj-body">
+            <span class="proj-badge">Medical AI</span>
+            <h3 class="proj-title">Brain Tumor Detection System</h3>
+            <p class="proj-desc">Deep learning model analyzing MRI images to detect brain tumors with high accuracy using Python and advanced neural networks.</p>
+            <div class="proj-tags">
+              <span class="proj-tag">Python</span>
+              <span class="proj-tag">TensorFlow</span>
+              <span class="proj-tag">Deep Learning</span>
+              <span class="proj-tag">HTML</span>
+            </div>
+            <div class="proj-actions">
+              <a href="https://github.com/BMSPQ/Brain-Tumor-Detection-Using-Deep-Learning" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm"><i class="fab fa-github" aria-hidden="true"></i> Code</a>
+              <button class="btn btn-ghost btn-sm" disabled aria-disabled="true" title="Coming soon"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="proj-card reveal d2">
+          <div class="proj-thumb bg-agri" aria-hidden="true">
+            <div class="proj-shape"><i class="fas fa-leaf"></i></div>
+            <div class="proj-hover"><div class="proj-hover-text"><h4>Project</h4><p>Agricultural AI</p></div></div>
+          </div>
+          <div class="proj-body">
+            <span class="proj-badge">Agriculture</span>
+            <h3 class="proj-title">Crop Recommendation System</h3>
+            <p class="proj-desc">ML model that analyzes environmental data to recommend optimal crops, helping farmers make data-driven decisions.</p>
+            <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Machine Learning</span><span class="proj-tag">Data Analysis</span></div>
+            <div class="proj-actions"><button class="btn btn-ghost btn-sm" disabled aria-disabled="true"><i class="fab fa-github" aria-hidden="true"></i> Coming Soon</button></div>
+          </div>
+        </article>
+
+        <article class="proj-card reveal d1">
+          <div class="proj-thumb bg-lib" aria-hidden="true">
+            <div class="proj-shape"><i class="fas fa-book"></i></div>
+            <div class="proj-hover"><div class="proj-hover-text"><h4>Project</h4><p>Management System</p></div></div>
+          </div>
+          <div class="proj-body">
+            <span class="proj-badge">Management</span>
+            <h3 class="proj-title">Library Management System</h3>
+            <p class="proj-desc">Comprehensive system for library operations — book issue/return, member management, and inventory tracking.</p>
+            <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">MySQL</span></div>
+            <div class="proj-actions"><button class="btn btn-ghost btn-sm" disabled aria-disabled="true"><i class="fab fa-github" aria-hidden="true"></i> Coming Soon</button></div>
+          </div>
+        </article>
+
+        <article class="proj-card reveal d2">
+          <div class="proj-thumb bg-bout" aria-hidden="true">
+            <div class="proj-shape"><i class="fas fa-shopping-bag"></i></div>
+            <div class="proj-hover"><div class="proj-hover-text"><h4>Project</h4><p>Retail System</p></div></div>
+          </div>
+          <div class="proj-body">
+            <span class="proj-badge">Retail</span>
+            <h3 class="proj-title">Boutique Management System</h3>
+            <p class="proj-desc">Inventory and billing system for boutique stores with product management, sales tracking, and customer database.</p>
+            <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">MySQL</span><span class="proj-tag">PyQt</span></div>
+            <div class="proj-actions"><button class="btn btn-ghost btn-sm" disabled aria-disabled="true"><i class="fab fa-github" aria-hidden="true"></i> Coming Soon</button></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="section section-alt2">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-label">Background</div>
+        <h2 class="sec-title">My <span>Education</span></h2>
+      </div>
+
+      <div class="edu-timeline">
+
+        <div class="edu-item reveal">
+          <div class="edu-dot-wrap"><div class="edu-dot"></div></div>
+          <div class="edu-card">
+            <div class="edu-year">2023 – 2027</div>
+            <div class="edu-deg">B.Tech in Computer Science &amp; Engineering</div>
+            <div class="edu-school">GIET University</div>
+            <span class="edu-grade">CGPA: 7.8</span>
+          </div>
+        </div>
+
+        <div class="edu-item reveal d1">
+          <div class="edu-dot-wrap"><div class="edu-dot edu-dot-2"></div></div>
+          <div class="edu-card">
+            <div class="edu-year edu-year-2">2021 – 2023</div>
+            <div class="edu-deg">12th Grade (Science)</div>
+            <div class="edu-school">Gyana Vikash Higher Secondary School</div>
+            <span class="edu-grade">67%</span>
+          </div>
+        </div>
+
+        <div class="edu-item reveal d2" style="margin-bottom:0">
+          <div class="edu-dot-wrap"><div class="edu-dot edu-dot-3"></div></div>
+          <div class="edu-card">
+            <div class="edu-year edu-year-3">2020 – 2021</div>
+            <div class="edu-deg">10th Grade</div>
+            <div class="edu-school">Nabajyoti High School</div>
+            <span class="edu-grade">78%</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications" class="section">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-label">Credentials</div>
+        <h2 class="sec-title"><span>Certifications</span></h2>
+      </div>
+
+      <div class="certs-grid">
+        <div class="cert-card reveal d1"><div class="cert-ico"><i class="fab fa-python"     aria-hidden="true"></i></div><div class="cert-body"><h4>Programming with Python</h4><p>Internshala – 6 Week Online Training</p></div><span class="cert-date">Score: 95%</span></div>
+        <div class="cert-card reveal d2"><div class="cert-ico"><i class="fas fa-desktop"    aria-hidden="true"></i></div><div class="cert-body"><h4>NPTEL – Design &amp; Implementation of HCI</h4><p>National Programme on Technology Enhanced Learning</p></div><span class="cert-date">2024</span></div>
+        <div class="cert-card reveal d3"><div class="cert-ico"><i class="fas fa-microchip"  aria-hidden="true"></i></div><div class="cert-body"><h4>NPTEL – Introduction to IoT</h4><p>IoT Architecture &amp; Connected Systems</p></div><span class="cert-date">2024</span></div>
+        <div class="cert-card reveal d1"><div class="cert-ico"><i class="fas fa-brain"      aria-hidden="true"></i></div><div class="cert-body"><h4>Generative AI, LLM &amp; RAG</h4><p>GeeksforGeeks – SkillUp Program</p></div><span class="cert-date">2024</span></div>
+        <div class="cert-card reveal d2"><div class="cert-ico"><i class="fab fa-hackerrank" aria-hidden="true"></i></div><div class="cert-body"><h4>HackerRank – Java (Basic)</h4><p>Problem Solving Certification</p></div><span class="cert-date">2024</span></div>
+        <div class="cert-card reveal d3"><div class="cert-ico"><i class="fas fa-briefcase"  aria-hidden="true"></i></div><div class="cert-body"><h4>Data Science Internship</h4><p>Remark Skill Education</p></div><span class="cert-date">Summer 2024</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section section-alt">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-label">Contact</div>
+        <h2 class="sec-title">Let's <span>Connect</span></h2>
+      </div>
+
+      <div class="contact-wrap">
+        <div class="contact-left reveal-l">
+          <h3>Get In Touch</h3>
+          <p>I'm always open to new opportunities and exciting projects. Feel free to reach out — let's build something great together.</p>
+
+          <div class="contact-links">
+            <a href="mailto:kruttibashpanda2000@gmail.com" class="contact-link-item">
+              <i class="fas fa-envelope contact-link-ico" aria-hidden="true"></i>
+              <div class="contact-link-info"><span>Email</span><strong>kruttibashpanda2000@gmail.com</strong></div>
+            </a>
+            <a href="https://github.com/BMSPQ" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+              <i class="fab fa-github contact-link-ico" aria-hidden="true"></i>
+              <div class="contact-link-info"><span>GitHub</span><strong>github.com/BMSPQ</strong></div>
+            </a>
+            <a href="https://www.linkedin.com/in/kruttibash-panda-bmspq36/" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+              <i class="fab fa-linkedin contact-link-ico" aria-hidden="true"></i>
+              <div class="contact-link-info"><span>LinkedIn</span><strong>kruttibash-panda-bmspq36</strong></div>
+            </a>
+          </div>
+
+          <div class="social-row">
+            <a href="https://github.com/BMSPQ" target="_blank" rel="noopener noreferrer" class="soc-btn" title="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/kruttibash-panda-bmspq36/" target="_blank" rel="noopener noreferrer" class="soc-btn" title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="form-card reveal-r">
+          <h3>Send a Message</h3>
+          <form id="contactForm" action="https://formspree.io/f/xojnbyrl" method="POST" novalidate>
+            <div class="form-row">
+              <div class="f-group"><input type="text"  name="name"    placeholder="Your Name"  required/></div>
+              <div class="f-group"><input type="email" name="email"   placeholder="Your Email" required/></div>
+            </div>
+            <div class="f-group"><input type="text" name="subject" placeholder="Subject" required/></div>
+            <div class="f-group"><textarea name="message" rows="5" placeholder="Your Message…" required></textarea></div>
+            <input type="hidden" name="_subject" value="New Portfolio Message"/>
+            <input type="hidden" name="_captcha" value="false"/>
+            <input type="hidden" name="_next"    value="https://kruttibash-panda-portfolio-4sx1ioc4b.vercel.app/#contact"/>
+            <button type="submit" class="btn btn-glow btn-full">
+              <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ──────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">Kruttibash Panda</span>
+      <p>Python Developer · ML Enthusiast</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <h6>Navigation</h6>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="footer-soc">
+      <h6>Social</h6>
+      <div class="footer-soc-row">
+        <a href="https://github.com/BMSPQ" target="_blank" rel="noopener noreferrer" class="soc-btn" title="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/kruttibash-panda-bmspq36/" target="_blank" rel="noopener noreferrer" class="soc-btn" title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2025 Kruttibash Panda · All rights reserved.</div>
+</footer>
+
+<!-- ── BACK TO TOP ─────────────────────────────── -->
+<button id="btt" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+
+<!-- Three.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<!-- Main Script -->
+<script src="script.js"></script>
+
 </body>
 </html>
