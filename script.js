@@ -1,511 +1,446 @@
 /**
- * KRUTTIBASH PANDA - PROFESSIONAL PORTFOLIO (UPDATED BACKGROUND)
+ * KRUTTIBASH PANDA — PREMIUM PORTFOLIO
+ * script.js
  *
- * What changed vs your current JS:
- * - Replaced "torus + heavy neon" background with a subtle professional starfield.
- * - No WEBGL helper dependency (safe WebGL check included).
- * - Better performance: reduces stars on low-end + mobile, pauses on tab hidden.
- * - Keeps your UI features: typing, scroll fade, nav active, hamburger, back-to-top, contact form.
- *
- * Works with your updated HTML/CSS:
- * - #loader
- * - #canvas-container
- * - #backToTop
- * - .hamburger (button)
- * - .nav-links
- * - #typing-animation
- * - #contactForm
+ * Features:
+ *  - Three.js 3D background: circular star particles, wireframe 3D shapes, glowing orbs
+ *  - Custom magnetic cursor with lag
+ *  - Typing animation
+ *  - Scroll reveal (IntersectionObserver)
+ *  - 3D card tilt (profile, skill cards, project cards)
+ *  - Navbar scroll + active link highlight
+ *  - Hamburger mobile menu
+ *  - Back-to-top button
+ *  - Contact form async submit
  */
 
-// ======================
-// Global Three.js objects
-// ======================
-let scene, camera, renderer;
-let stars, starGeometry, starMaterial;
+/* ============================================================
+   LOADER
+   ============================================================ */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    if (loader) loader.classList.add('done');
+  }, 1500);
+});
 
-// Interaction state
-let mouseX = 0, mouseY = 0;
-let scrollProgress = 0;
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+(function initCursor() {
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (!dot || !ring) return;
 
-// Animation / lifecycle
-let isLoaded = false;
-let animationId = null;
-let isAnimating = false;
+  let cx = 0, cy = 0;   // actual mouse position
+  let rx = 0, ry = 0;   // ring lerp position
 
-// ======================
-// Background configuration (professional / subtle)
-// ======================
-const bgConfig = {
-  starCount: 500,       // will be reduced automatically on low-end/mobile
-  starSize: 0.7,
-  starOpacity: 0.55,
-  depth: 120,
-  spread: 80,
-  driftSpeed: 0.015,    // slow drift = premium
-  parallaxStrength: 0.8,
-  cameraZ: 60
-};
-
-// ======================
-// Feature detection
-// ======================
-function prefersReducedMotion() {
-  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
-function isMobileLikeDevice() {
-  return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
-}
-
-/**
- * Safe WebGL check (no WEBGL helper required)
- */
-function isWebGLAvailable() {
-  try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    return !!(window.WebGLRenderingContext && gl);
-  } catch {
-    return false;
-  }
-}
-
-// ======================
-// Loader helpers
-// ======================
-function hideLoader() {
-  const loader = document.getElementById('loader');
-  if (!loader) return;
-
-  loader.style.opacity = '0';
-  loader.setAttribute('aria-busy', 'false');
-
-  window.setTimeout(() => {
-    loader.style.display = 'none';
-  }, 500);
-}
-
-/**
- * Show loader briefly but never hang forever
- */
-function finishLoadingUI() {
-  if (isLoaded) return;
-  isLoaded = true;
-  hideLoader();
-}
-
-// ======================
-// Three.js init (Professional background)
-// ======================
-function init3D() {
-  scene = new THREE.Scene();
-
-  camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    500
-  );
-  camera.position.z = bgConfig.cameraZ;
-
-  renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    alpha: true,
-    powerPreference: 'high-performance'
+  document.addEventListener('mousemove', e => {
+    cx = e.clientX;
+    cy = e.clientY;
+    // Dot follows instantly
+    dot.style.left = cx + 'px';
+    dot.style.top  = cy + 'px';
   });
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  // Ring follows with smooth lag
+  (function lerpRing() {
+    rx += (cx - rx) * 0.14;
+    ry += (cy - ry) * 0.14;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(lerpRing);
+  })();
+})();
+
+/* ============================================================
+   THREE.JS — 3D BACKGROUND
+   Renders: circular star particles + wireframe shapes + glowing orbs
+   NO square particles — uses a Canvas-generated circular texture
+   ============================================================ */
+(function init3D() {
+  if (typeof THREE === 'undefined') return;
+
+  const canvas   = document.getElementById('canvas-bg');
+  if (!canvas) return;
+
+  /* --- WebGL check --- */
+  try {
+    const test = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!test) return;
+  } catch (e) { return; }
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x000000, 0);
 
-  const container = document.getElementById('canvas-container');
-  if (container) {
-    container.innerHTML = '';
-    container.appendChild(renderer.domElement);
+  const scene = new THREE.Scene();
+  const cam   = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 400);
+  cam.position.z = 55;
+
+  /* ── Circular texture (prevents square particles) ── */
+  function makeCircleTex() {
+    const c   = document.createElement('canvas');
+    c.width   = 64; c.height = 64;
+    const ctx = c.getContext('2d');
+    const g   = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0,   'rgba(255,255,255,1)');
+    g.addColorStop(0.4, 'rgba(255,255,255,0.8)');
+    g.addColorStop(1,   'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(32, 32, 32, 0, Math.PI * 2);
+    ctx.fill();
+    return new THREE.CanvasTexture(c);
+  }
+  const ptTex = makeCircleTex();
+
+  /* ── Star / particle field ── */
+  const isMobile  = window.innerWidth < 768;
+  const N_STARS   = isMobile ? 280 : 600;
+  const starGeo   = new THREE.BufferGeometry();
+  const sPos      = new Float32Array(N_STARS * 3);
+  const sCol      = new Float32Array(N_STARS * 3);
+  const palette   = [
+    new THREE.Color('#00e5ff'),
+    new THREE.Color('#7b2fff'),
+    new THREE.Color('#ffffff'),
+    new THREE.Color('#a0c8ff'),
+    new THREE.Color('#ff3cac'),
+  ];
+
+  for (let i = 0; i < N_STARS; i++) {
+    sPos[i * 3]     = (Math.random() - 0.5) * 180;
+    sPos[i * 3 + 1] = (Math.random() - 0.5) * 180;
+    sPos[i * 3 + 2] = (Math.random() - 0.5) * 180;
+    const col = palette[Math.floor(Math.random() * palette.length)];
+    sCol[i * 3]     = col.r;
+    sCol[i * 3 + 1] = col.g;
+    sCol[i * 3 + 2] = col.b;
   }
 
-  setupSoftLighting();
-  createStarfield();
-  setupEventListeners();
+  starGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
+  starGeo.setAttribute('color',    new THREE.BufferAttribute(sCol, 3));
 
-  startAnimation();
-}
-
-function setupSoftLighting() {
-  // Subtle ambient so stars look clean (not neon)
-  const ambient = new THREE.AmbientLight(0xffffff, 0.7);
-  scene.add(ambient);
-}
-
-function createStarfield() {
-  starGeometry = new THREE.BufferGeometry();
-
-  const positions = new Float32Array(bgConfig.starCount * 3);
-  const colors = new Float32Array(bgConfig.starCount * 3);
-
-  // Soft tints: professional blue + soft purple
-  const c1 = new THREE.Color(0x7dd3fc);
-  const c2 = new THREE.Color(0xc4b5fd);
-
-  for (let i = 0; i < bgConfig.starCount; i++) {
-    const i3 = i * 3;
-
-    positions[i3] = (Math.random() - 0.5) * bgConfig.spread;
-    positions[i3 + 1] = (Math.random() - 0.5) * bgConfig.spread;
-    positions[i3 + 2] = (Math.random() - 0.5) * bgConfig.depth;
-
-    const t = Math.random();
-    const col = c1.clone().lerp(c2, t);
-    colors[i3] = col.r;
-    colors[i3 + 1] = col.g;
-    colors[i3 + 2] = col.b;
-  }
-
-  starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-  starMaterial = new THREE.PointsMaterial({
-    size: bgConfig.starSize,
-    transparent: true,
-    opacity: bgConfig.starOpacity,
-    vertexColors: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true
+  const starMat = new THREE.PointsMaterial({
+    size:            0.55,
+    map:             ptTex,       // <-- circular texture = no squares
+    alphaTest:       0.01,
+    transparent:     true,
+    opacity:         0.65,
+    vertexColors:    true,
+    depthWrite:      false,
+    blending:        THREE.AdditiveBlending,
+    sizeAttenuation: true,
   });
+  scene.add(new THREE.Points(starGeo, starMat));
 
-  stars = new THREE.Points(starGeometry, starMaterial);
-  scene.add(stars);
-}
+  /* ── Glowing orbs ── */
+  function addOrb(color, x, y, z, radius) {
+    const mesh = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, 24, 24),
+      new THREE.MeshBasicMaterial({
+        color, transparent: true, opacity: 0.12,
+        blending: THREE.AdditiveBlending, depthWrite: false,
+      })
+    );
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+    return mesh;
+  }
+  const orb1 = addOrb(0x00e5ff,  18,  8, -20, 12);
+  const orb2 = addOrb(0x7b2fff, -20, -6, -15, 10);
+  const orb3 = addOrb(0xff3cac,   8,-14, -18,  8);
 
-// ======================
-// Events
-// ======================
-function setupEventListeners() {
-  window.addEventListener('mousemove', (event) => {
-    // Normalize to [-1..1]
-    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+  /* ── Wireframe icosahedron ── */
+  const ico = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(10, 1),
+    new THREE.MeshBasicMaterial({
+      color: 0x00e5ff, wireframe: true,
+      transparent: true, opacity: 0.055,
+      blending: THREE.AdditiveBlending,
+    })
+  );
+  ico.position.set(22, -5, -10);
+  scene.add(ico);
+
+  /* ── Wireframe torus ── */
+  const tor = new THREE.Mesh(
+    new THREE.TorusGeometry(7, 2.5, 16, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0x7b2fff, wireframe: true,
+      transparent: true, opacity: 0.045,
+      blending: THREE.AdditiveBlending,
+    })
+  );
+  tor.position.set(-22, 6, -12);
+  scene.add(tor);
+
+  /* ── Mouse parallax ── */
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth)  * 2 - 1;
+    mouseY = (e.clientY / window.innerHeight) * 2 - 1;
   }, { passive: true });
 
-  window.addEventListener('touchmove', (event) => {
-    if (event.touches && event.touches.length > 0) {
-      const t = event.touches[0];
-      mouseX = (t.clientX / window.innerWidth) * 2 - 1;
-      mouseY = (t.clientY / window.innerHeight) * 2 - 1;
-    }
-  }, { passive: true });
+  let scrollY = 0;
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
 
+  /* ── Resize ── */
   window.addEventListener('resize', () => {
-    if (!camera || !renderer) return;
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    cam.aspect = window.innerWidth / window.innerHeight;
+    cam.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   });
 
-  window.addEventListener('scroll', () => {
-    const maxScroll = document.body.scrollHeight - window.innerHeight;
-    scrollProgress = maxScroll > 0 ? (window.scrollY / maxScroll) : 0;
-  }, { passive: true });
+  /* ── Pause when tab hidden ── */
+  let paused = false;
+  document.addEventListener('visibilitychange', () => { paused = document.hidden; });
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopAnimation();
-    else if (renderer && scene && camera) startAnimation();
-  });
-}
+  /* ── Animation loop ── */
+  const clock = new THREE.Clock();
 
-// ======================
-// Animation loop control
-// ======================
-function startAnimation() {
-  if (isAnimating) return;
-  isAnimating = true;
-  animate();
-}
+  (function animate() {
+    requestAnimationFrame(animate);
+    if (paused) return;
 
-function stopAnimation() {
-  isAnimating = false;
-  if (animationId) cancelAnimationFrame(animationId);
-  animationId = null;
-}
+    const t = clock.getElapsedTime();
 
-function animate() {
-  if (!isAnimating) return;
-  animationId = requestAnimationFrame(animate);
+    // Smooth camera parallax
+    cam.position.x += (mouseX * 0.8  - cam.position.x) * 0.04;
+    cam.position.y += (-mouseY * 0.8 - cam.position.y) * 0.04;
+    cam.position.z  = 55 + scrollY * 0.012;
 
-  // Subtle parallax
-  const targetX = mouseX * bgConfig.parallaxStrength;
-  const targetY = -mouseY * bgConfig.parallaxStrength;
+    // Rotate 3D shapes
+    ico.rotation.x = t * 0.18;
+    ico.rotation.y = t * 0.12;
+    tor.rotation.x = t * 0.10;
+    tor.rotation.z = t * 0.15;
 
-  camera.position.x += (targetX - camera.position.x) * 0.03;
-  camera.position.y += (targetY - camera.position.y) * 0.03;
+    // Bob orbs
+    orb1.position.y =  8  + Math.sin(t * 0.40) * 3;
+    orb2.position.y = -6  + Math.cos(t * 0.30) * 3;
+    orb3.position.y = -14 + Math.sin(t * 0.50 + 1) * 2;
 
-  // Gentle scroll zoom
-  camera.position.z = bgConfig.cameraZ + scrollProgress * 10;
+    // Slowly rotate entire star field
+    scene.rotation.y = t * 0.006;
 
-  // Drift stars (professional, slow) via group rotation for performance
-  if (stars) {
-    stars.rotation.z += bgConfig.driftSpeed * 0.01;
-    stars.rotation.y += bgConfig.driftSpeed * 0.005;
+    renderer.render(scene, cam);
+  })();
+})();
+
+/* ============================================================
+   TYPING ANIMATION
+   ============================================================ */
+(function initTyping() {
+  const el = document.getElementById('type-el');
+  if (!el) return;
+
+  const roles = [
+    'Machine Learning Enthusiast',
+    'Web Developer',
+    'AI / ML Developer',
+    'Problem Solver',
+  ];
+  let ri = 0, ci = 0, deleting = false;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = roles[0];
+    return;
   }
 
-  renderer.render(scene, camera);
-}
+  function tick() {
+    const cur = roles[ri];
+    el.textContent = deleting ? cur.slice(0, --ci) : cur.slice(0, ++ci);
 
-// ======================
-// UI Interactions
-// ======================
-function initTypingAnimation() {
-  const typingElement = document.getElementById('typing-animation');
-  if (!typingElement) return;
-
-  const roles = ['Machine Learning Enthusiast', 'Web Developer', 'AI/ML Developer'];
-  let roleIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-
-  const typingSpeed = 100;
-  const deletingSpeed = 50;
-  const delayBetweenWords = 2000;
-
-  function type() {
-    if (prefersReducedMotion()) {
-      typingElement.textContent = roles[0];
+    if (!deleting && ci === cur.length) {
+      deleting = true;
+      setTimeout(tick, 2200);
       return;
     }
-
-    const currentRole = roles[roleIndex];
-
-    if (isDeleting) {
-      typingElement.textContent = currentRole.substring(0, charIndex--);
-    } else {
-      typingElement.textContent = currentRole.substring(0, charIndex++);
+    if (deleting && ci === 0) {
+      deleting = false;
+      ri = (ri + 1) % roles.length;
+      setTimeout(tick, 500);
+      return;
     }
-
-    if (!isDeleting && charIndex === currentRole.length) {
-      isDeleting = true;
-      setTimeout(type, delayBetweenWords);
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      roleIndex = (roleIndex + 1) % roles.length;
-      setTimeout(type, 500);
-    } else {
-      setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
-    }
+    setTimeout(tick, deleting ? 46 : 92);
   }
+  tick();
+})();
 
-  type();
-}
-
-function initScrollAnimations() {
-  const backToTopBtn = document.getElementById('backToTop');
-
-  const fadeElements = document.querySelectorAll('.fade-in');
-  if (fadeElements.length) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    fadeElements.forEach(el => observer.observe(el));
-  }
-
-  const revealElements = document.querySelectorAll('.reveal');
-  if (revealElements.length) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.15 });
-
-    revealElements.forEach(el => revealObserver.observe(el));
-  }
-
-  if (backToTopBtn) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) backToTopBtn.classList.add('visible');
-      else backToTopBtn.classList.remove('visible');
-    }, { passive: true });
-
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+/* ============================================================
+   SCROLL REVEAL (IntersectionObserver)
+   ============================================================ */
+(function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('vis');
     });
-  }
-}
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-function initNavigation() {
+  document.querySelectorAll('.reveal, .reveal-l, .reveal-r, .fade-in')
+    .forEach(el => obs.observe(el));
+})();
+
+/* ============================================================
+   NAVBAR — scroll state + active link + hamburger
+   ============================================================ */
+(function initNav() {
+  const navbar   = document.getElementById('navbar');
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('section[id]');
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href');
-      const targetSection = targetId ? document.querySelector(targetId) : null;
-
-      if (targetSection) {
-        targetSection.scrollIntoView({
-          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
+  const ham      = document.getElementById('ham');
+  const navEl    = document.getElementById('navLinks');
+  const btt      = document.getElementById('btt');
 
   window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      if (window.scrollY >= section.offsetTop - 200) current = section.getAttribute('id');
-    });
+    const sy = window.scrollY;
 
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+    // Navbar background
+    if (navbar) navbar.classList.toggle('scrolled', sy > 60);
+
+    // Back-to-top visibility
+    if (btt) btt.classList.toggle('show', sy > 300);
+
+    // Active link
+    let current = '';
+    sections.forEach(s => {
+      if (sy >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(l => {
+      l.classList.remove('active');
+      if (l.getAttribute('href') === '#' + current) l.classList.add('active');
     });
   }, { passive: true });
 
-  const hamburger = document.querySelector('.hamburger');
-  const navLinksContainer = document.querySelector('.nav-links');
-
-  if (hamburger && navLinksContainer) {
-    hamburger.addEventListener('click', () => {
-      const isOpen = hamburger.classList.toggle('active');
-      navLinksContainer.classList.toggle('active', isOpen);
-      hamburger.setAttribute('aria-expanded', String(isOpen));
+  // Smooth scroll nav clicks
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Close mobile menu
+      if (navEl)  navEl.classList.remove('open');
+      if (ham)  { ham.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); }
     });
+  });
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navLinksContainer.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-      });
+  // Hamburger toggle
+  if (ham && navEl) {
+    ham.addEventListener('click', () => {
+      const open = ham.classList.toggle('open');
+      navEl.classList.toggle('open', open);
+      ham.setAttribute('aria-expanded', String(open));
     });
   }
-}
+})();
 
-function setFormStatus(form, message, ok) {
-  if (!form) return;
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+(function initBtt() {
+  const btt = document.getElementById('btt');
+  if (!btt) return;
+  btt.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
 
-  let el = form.querySelector('[data-form-status]');
-  if (!el) {
-    el = document.createElement('p');
-    el.setAttribute('data-form-status', 'true');
-    el.style.marginTop = '12px';
-    el.style.fontSize = '0.95rem';
-    form.appendChild(el);
-  }
+/* ============================================================
+   3D TILT — Profile card (strong tilt)
+   ============================================================ */
+(function initProfileTilt() {
+  // Skip on touch/mobile
+  if (window.matchMedia('(hover: none)').matches) return;
+  const card = document.getElementById('profileCard');
+  if (!card) return;
 
-  el.style.color = ok ? '#00f2ff' : '#ff6b6b';
-  el.textContent = message;
-}
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transition = 'transform .08s';
+    card.style.transform  = `perspective(800px) rotateY(${x * 20}deg) rotateX(${-y * 20}deg) scale(1.03)`;
+  });
 
-function initContactForm() {
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform .55s cubic-bezier(0.16,1,0.3,1)';
+    card.style.transform  = 'perspective(800px) rotateY(0deg) rotateX(0deg) scale(1)';
+  });
+})();
+
+/* ============================================================
+   3D TILT — Skill categories & Project cards (desktop only)
+   ============================================================ */
+(function initCardTilts() {
+  // Skip on touch/mobile — causes jank, no hover state anyway
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const cards = document.querySelectorAll('.skill-cat, .proj-card');
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transition = 'transform .08s';
+      card.style.transform  = `perspective(700px) rotateY(${x * 9}deg) rotateX(${-y * 9}deg) translateY(-5px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform .5s cubic-bezier(0.16,1,0.3,1)';
+      card.style.transform  = '';
+    });
+  });
+})();
+
+/* ============================================================
+   CONTACT FORM — async Formspree submit
+   ============================================================ */
+(function initForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalHTML = submitBtn ? submitBtn.innerHTML : '';
-
-    if (submitBtn) {
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-      submitBtn.disabled = true;
+  function setStatus(msg, ok) {
+    let el = form.querySelector('[data-status]');
+    if (!el) {
+      el = document.createElement('p');
+      el.setAttribute('data-status', '');
+      el.style.cssText = 'margin-top:12px;font-size:.85rem;font-family:var(--font-mono,monospace);letter-spacing:.05em;';
+      form.appendChild(el);
     }
+    el.style.color = ok ? 'var(--c1)' : '#f87171';
+    el.textContent = msg;
+  }
 
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn  = form.querySelector('button[type="submit"]');
+    const orig = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+      btn.disabled  = true;
+    }
     try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' }
+      const res = await fetch(form.action, {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { Accept: 'application/json' },
       });
-
-      if (response.ok) {
-        setFormStatus(form, 'Message sent successfully. Thank you!', true);
+      if (res.ok) {
+        setStatus('✓ Message sent — thank you!', true);
         form.reset();
       } else {
-        setFormStatus(form, 'Something went wrong. Please try again.', false);
+        setStatus('✕ Something went wrong. Please try again.', false);
       }
     } catch {
-      setFormStatus(form, 'Network error. Please check your connection and try again.', false);
+      setStatus('✕ Network error. Please check your connection.', false);
     }
-
-    if (submitBtn) {
-      submitBtn.innerHTML = originalHTML;
-      submitBtn.disabled = false;
+    if (btn) {
+      btn.innerHTML = orig;
+      btn.disabled  = false;
     }
   });
-}
-
-function initUI() {
-  initTypingAnimation();
-  initScrollAnimations();
-  initNavigation();
-  initContactForm();
-}
-
-// ======================
-// Performance optimization (for background)
-// ======================
-function optimizePerformance() {
-  const lowEndCpu = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
-
-  if (lowEndCpu) {
-    bgConfig.starCount = 350;
-    bgConfig.starSize = 0.6;
-    bgConfig.starOpacity = 0.45;
-    bgConfig.driftSpeed = 0.012;
-  }
-
-  if (isMobileLikeDevice()) {
-    bgConfig.starCount = Math.min(bgConfig.starCount, 300);
-    bgConfig.starSize = 0.6;
-    bgConfig.starOpacity = Math.min(bgConfig.starOpacity, 0.45);
-    bgConfig.driftSpeed = 0.012;
-  }
-
-  // Reduce render quality on mobile
-  if (isMobileLikeDevice() && renderer) {
-    renderer.setPixelRatio(1);
-  }
-}
-
-// ======================
-// Bootstrap
-// ======================
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('Portfolio script loaded successfully');
-
-  initUI();
-
-  // Always hide loader after short time (avoid hanging)
-  window.setTimeout(() => finishLoadingUI(), 1400);
-
-  const canRun3D =
-    typeof THREE !== 'undefined' &&
-    isWebGLAvailable() &&
-    !prefersReducedMotion();
-
-  if (canRun3D) {
-    console.log('Three.js available, initializing professional 3D background');
-    optimizePerformance(); // adjusts bgConfig before init3D
-    init3D();
-  } else {
-    console.log('3D background disabled (missing WebGL/Three.js or reduced motion preference).');
-    finishLoadingUI();
-  }
-});
-
-// Export for potential future use
-window.portfolio3D = {
-  init3D,
-  startAnimation,
-  stopAnimation,
-  get scene() { return scene; },
-  get camera() { return camera; },
-  get renderer() { return renderer; }
-};
+})();
